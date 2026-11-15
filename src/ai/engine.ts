@@ -595,9 +595,52 @@ async function fetchAIHordeImageBuffer(
 export async function fetchOpenSourceImageBuffer(prompt: string): Promise<Buffer | null> {
   const negPrompt = 'ugly, deformed, blurry, watermark, signature, text, distorted, low quality, extra limbs';
   const isVercel = Boolean(process.env.VERCEL);
-  const hfTimeout = isVercel ? 3500 : 18000;
-  const pollTimeout = isVercel ? 10000 : 35000;
-  const fallbackTimeout = isVercel ? 5000 : 30000;
+
+  // On Vercel Hobby (10s serverless limit), race HF Spaces in parallel (2.5s max) then Pollinations (5s max)
+  // so total server time stays under 8s and never triggers 504 "unexpected response from server".
+  if (isVercel) {
+    try {
+      return await Promise.any([
+        requireBuffer(
+          callHuggingFaceGradioSpace(
+            'https://mukaist-midjourney.hf.space',
+            [prompt, negPrompt, true, '2560 x 1440', 0, 1024, 1024, 6, true],
+            2500,
+            'run'
+          )
+        ),
+        requireBuffer(
+          callHuggingFaceGradioSpace(
+            'https://stabilityai-stable-diffusion-3-5-large-turbo.hf.space',
+            [prompt, negPrompt, 0, true, 1024, 1024, 0, 4],
+            2500,
+            'infer'
+          )
+        ),
+        requireBuffer(
+          callHuggingFaceGradioSpace(
+            'https://mrfakename-opendallev1-1-gpu-demo.hf.space',
+            [prompt, negPrompt, '', '', true, false, false, 0, 1024, 1024, 5, 5, 25, 25, false],
+            2500,
+            'run'
+          )
+        ),
+      ]);
+    } catch {
+      // HF Spaces exhausted/timed out, try Pollinations within remaining budget
+    }
+
+    const pollinationsBuf = await fetchPollinationsImageBuffer(prompt, 'flux', 5000);
+    if (pollinationsBuf) {
+      return pollinationsBuf;
+    }
+
+    return null;
+  }
+
+  const hfTimeout = 18000;
+  const pollTimeout = 35000;
+  const fallbackTimeout = 30000;
 
   // Tier 1: Midjourney-style SDXL
   const midjourneyBuf = await callHuggingFaceGradioSpace(
