@@ -594,12 +594,16 @@ async function fetchAIHordeImageBuffer(
 
 export async function fetchOpenSourceImageBuffer(prompt: string): Promise<Buffer | null> {
   const negPrompt = 'ugly, deformed, blurry, watermark, signature, text, distorted, low quality, extra limbs';
+  const isVercel = Boolean(process.env.VERCEL);
+  const hfTimeout = isVercel ? 5000 : 18000;
+  const pollTimeout = isVercel ? 15000 : 35000;
+  const fallbackTimeout = isVercel ? 8000 : 30000;
 
   // Tier 1: Midjourney-style SDXL
   const midjourneyBuf = await callHuggingFaceGradioSpace(
     'https://mukaist-midjourney.hf.space',
     [prompt, negPrompt, true, '2560 x 1440', 0, 1024, 1024, 6, true],
-    45000,
+    hfTimeout,
     'run'
   );
   if (midjourneyBuf) {
@@ -610,7 +614,7 @@ export async function fetchOpenSourceImageBuffer(prompt: string): Promise<Buffer
   const sdBuf = await callHuggingFaceGradioSpace(
     'https://stabilityai-stable-diffusion-3-5-large-turbo.hf.space',
     [prompt, negPrompt, 0, true, 1024, 1024, 0, 4],
-    45000,
+    hfTimeout,
     'infer'
   );
   if (sdBuf) {
@@ -621,7 +625,7 @@ export async function fetchOpenSourceImageBuffer(prompt: string): Promise<Buffer
   const dalleBuf = await callHuggingFaceGradioSpace(
     'https://mrfakename-opendallev1-1-gpu-demo.hf.space',
     [prompt, negPrompt, '', '', true, false, false, 0, 1024, 1024, 5, 5, 25, 25, false],
-    45000,
+    hfTimeout,
     'run'
   );
   if (dalleBuf) {
@@ -629,7 +633,7 @@ export async function fetchOpenSourceImageBuffer(prompt: string): Promise<Buffer
   }
 
   // Tier 4: Pollinations FLUX (watermark-cropped 1024x1024)
-  const pollinationsBuf = await fetchPollinationsImageBuffer(prompt, 'flux', 35000);
+  const pollinationsBuf = await fetchPollinationsImageBuffer(prompt, 'flux', pollTimeout);
   if (pollinationsBuf) {
     return pollinationsBuf;
   }
@@ -641,19 +645,21 @@ export async function fetchOpenSourceImageBuffer(prompt: string): Promise<Buffer
         callHuggingFaceGradioSpace(
           'https://black-forest-labs-flux-1-schnell.hf.space',
           [prompt, 0, true, 1024, 1024, 4],
-          45000,
+          fallbackTimeout,
           'infer'
         )
       ),
-      requireBuffer(fetchAIHordeImageBuffer(prompt, negPrompt, 45000)),
+      requireBuffer(fetchAIHordeImageBuffer(prompt, negPrompt, fallbackTimeout)),
     ]);
   } catch {
     // Cloud fallbacks unavailable
   }
 
-  const ganBuf = await generateLocalGanBuffer(prompt);
-  if (ganBuf) {
-    return ganBuf;
+  if (!isVercel) {
+    const ganBuf = await generateLocalGanBuffer(prompt);
+    if (ganBuf) {
+      return ganBuf;
+    }
   }
 
   return null;

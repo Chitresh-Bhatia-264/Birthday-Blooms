@@ -6,6 +6,8 @@ import {Header} from '@/components/header';
 import {Toaster} from '@/components/ui/toaster';
 import { AuthProvider } from '@/contexts/auth-context';
 
+export const maxDuration = 60;
+
 export const metadata: Metadata = {
   title: 'Birthday Bloom',
   description: 'Create magical 3D animated birthday videos with AI.',
