@@ -595,9 +595,9 @@ async function fetchAIHordeImageBuffer(
 export async function fetchOpenSourceImageBuffer(prompt: string): Promise<Buffer | null> {
   const negPrompt = 'ugly, deformed, blurry, watermark, signature, text, distorted, low quality, extra limbs';
   const isVercel = Boolean(process.env.VERCEL);
-  const hfTimeout = isVercel ? 5000 : 18000;
-  const pollTimeout = isVercel ? 15000 : 35000;
-  const fallbackTimeout = isVercel ? 8000 : 30000;
+  const hfTimeout = isVercel ? 3500 : 18000;
+  const pollTimeout = isVercel ? 10000 : 35000;
+  const fallbackTimeout = isVercel ? 5000 : 30000;
 
   // Tier 1: Midjourney-style SDXL
   const midjourneyBuf = await callHuggingFaceGradioSpace(
@@ -858,10 +858,10 @@ export async function compositeImageWithTypography(
   const resultBuffer = await sharp(bgBuffer)
     .resize(1024, 1024, { fit: 'cover', position: 'center' })
     .composite([{ input: Buffer.from(overlaySvg) }])
-    .png({ quality: 95 })
+    .webp({ quality: 90 })
     .toBuffer();
 
-  return `data:image/png;base64,${resultBuffer.toString('base64')}`;
+  return `data:image/webp;base64,${resultBuffer.toString('base64')}`;
 }
 
 // -------------------------------------------------------------
