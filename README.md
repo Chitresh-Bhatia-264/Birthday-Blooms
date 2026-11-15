@@ -1,5 +1,5 @@
 # 🌸 Birthday Bloom
-
+ 
 > **100% Free, Zero-Login AI Birthday Card, Sticker & Multilingual Wish Studio** — powered by open-source diffusion models, a custom-trained PyTorch Conditional DCGAN, and crisp 1024×1024 `sharp` typography compositing.
 
 ---
