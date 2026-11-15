@@ -287,9 +287,14 @@ export default function Home() {
     setIsGeneratingSticker(true);
     
     try {
-        const result = await generateStickerCard({ description: stickerPrompt, message: stickerMessage });
-        if (!result?.imageDataUri) {
-          throw new Error("Image generation failed to return data.");
+        const res = await fetch('/api/generate-sticker', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ description: stickerPrompt, message: stickerMessage }),
+        });
+        const result = await res.json();
+        if (!res.ok || !result?.imageDataUri) {
+          throw new Error(result?.error || "Image generation failed to return data.");
         }
         
         if (user && user.uid === 'demouser123') {
@@ -372,10 +377,15 @@ export default function Home() {
         setProgress(30);
         setProgressText('Generating image with AI...');
         
-        const imageResult = await generateImage(input);
+        const cardRes = await fetch('/api/generate-card', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(input),
+        });
+        const imageResult = await cardRes.json();
         
-        if (!imageResult?.imageDataUri) {
-          throw new Error("Image generation failed to return data.");
+        if (!cardRes.ok || !imageResult?.imageDataUri) {
+          throw new Error(imageResult?.error || "Image generation failed to return data.");
         }
 
         if (!user || user.uid === 'demouser123') {
