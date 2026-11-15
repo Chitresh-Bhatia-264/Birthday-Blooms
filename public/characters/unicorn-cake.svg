@@ -1,0 +1,46 @@
+<svg width="600" height="600" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="horn" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a" />
+      <stop offset="50%" stop-color="#facc15" />
+      <stop offset="100%" stop-color="#eab308" />
+    </linearGradient>
+    <linearGradient id="mane" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f472b6" />
+      <stop offset="50%" stop-color="#c084fc" />
+      <stop offset="100%" stop-color="#38bdf8" />
+    </linearGradient>
+  </defs>
+  <ellipse cx="300" cy="540" rx="240" ry="24" fill="#cbd5e1" opacity="0.6" />
+  <ellipse cx="300" cy="535" rx="230" ry="20" fill="#f8fafc" />
+  <path d="M 120,410 C 120,460 480,460 480,410 L 480,510 C 480,560 120,560 120,510 Z" fill="#ec4899" />
+  <ellipse cx="300" cy="410" rx="180" ry="40" fill="#f472b6" />
+  <path d="M 120,410 C 140,440 160,420 180,445 C 200,420 230,450 260,425 C 290,455 330,430 360,450 C 390,420 420,445 450,425 C 470,440 480,410 480,410" fill="none" stroke="#fbcfe8" stroke-width="12" stroke-linecap="round" />
+  <path d="M 170,320 C 170,360 430,360 430,320 L 430,390 C 430,430 170,430 170,390 Z" fill="#a855f7" />
+  <ellipse cx="300" cy="320" rx="130" ry="32" fill="#c084fc" />
+  <circle cx="180" cy="390" r="10" fill="#fbbf24" /><circle cx="230" cy="405" r="9" fill="#38bdf8" /><circle cx="280" cy="395" r="10" fill="#4ade80" /><circle cx="330" cy="405" r="10" fill="#f43f5e" /><circle cx="380" cy="395" r="9" fill="#fbbf24" /><circle cx="420" cy="385" r="8" fill="#38bdf8" />
+  <g transform="translate(300, 210)">
+    <ellipse cx="0" cy="45" rx="80" ry="70" fill="#ffffff" stroke="#f1f5f9" stroke-width="2" />
+    <ellipse cx="0" cy="55" rx="55" ry="45" fill="#fdf4ff" />
+    <ellipse cx="-48" cy="95" rx="24" ry="18" fill="#ffffff" /><path d="M -60,95 C -60,110 -36,110 -36,95 Z" fill="#facc15" />
+    <ellipse cx="48" cy="95" rx="24" ry="18" fill="#ffffff" /><path d="M 36,95 C 36,110 60,110 60,95 Z" fill="#facc15" />
+    <circle cx="0" cy="-35" r="70" fill="#ffffff" stroke="#f1f5f9" stroke-width="2" />
+    <ellipse cx="0" cy="-10" rx="42" ry="30" fill="#fce7f3" />
+    <circle cx="-12" cy="-12" r="4" fill="#f43f5e" /><circle cx="12" cy="-12" r="4" fill="#f43f5e" />
+    <path d="M -15,-2 Q 0,10 15,-2" fill="none" stroke="#be185d" stroke-width="3.5" stroke-linecap="round" />
+    <path d="M -38,-42 Q -24,-58 -10,-42" fill="none" stroke="#1e293b" stroke-width="4.5" stroke-linecap="round" />
+    <path d="M 10,-42 Q 24,-58 38,-42" fill="none" stroke="#1e293b" stroke-width="4.5" stroke-linecap="round" />
+    <ellipse cx="-42" cy="-24" rx="14" ry="10" fill="#fda4af" opacity="0.75" />
+    <ellipse cx="42" cy="-24" rx="14" ry="10" fill="#fda4af" opacity="0.75" />
+    <path d="M -50,-80 C -65,-120 -30,-120 -25,-85 Z" fill="#ffffff" stroke="#f1f5f9" stroke-width="2" /><path d="M -45,-85 C -55,-110 -35,-110 -30,-88 Z" fill="#fbcfe8" />
+    <path d="M 50,-80 C 65,-120 30,-120 25,-85 Z" fill="#ffffff" stroke="#f1f5f9" stroke-width="2" /><path d="M 45,-85 C 55,-110 35,-110 30,-88 Z" fill="#fbcfe8" />
+    <path d="M -15,-95 C -65,-75 -75,-25 -65,25 C -75,0 -50,-40 -20,-75 Z" fill="url(#mane)" />
+    <path d="M 15,-95 C 65,-75 75,-25 65,25 C 75,0 50,-40 20,-75 Z" fill="url(#mane)" />
+    <polygon points="0,-165 -16,-90 16,-90" fill="url(#horn)" />
+    <g transform="translate(100, 30)">
+      <rect x="-6" y="-50" width="12" height="50" rx="3" fill="#38bdf8" />
+      <circle cx="0" cy="-62" r="14" fill="#fbbf24" opacity="0.4" />
+      <path d="M 0,-74 C 7,-62 6,-54 0,-52 C -6,-54 -7,-62 0,-74 Z" fill="#f59e0b" />
+    </g>
+  </g>
+</svg>

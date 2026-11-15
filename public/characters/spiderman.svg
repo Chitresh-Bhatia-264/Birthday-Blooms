@@ -1,0 +1,39 @@
+<svg width="600" height="600" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="spideyRed" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#ef4444" />
+      <stop offset="70%" stop-color="#dc2626" />
+      <stop offset="100%" stop-color="#991b1b" />
+    </radialGradient>
+    <filter id="heroGlow">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.5" />
+    </filter>
+  </defs>
+  <g transform="translate(300, 300)" filter="url(#heroGlow)">
+    <!-- Spidey Mask Shape -->
+    <path d="M 0,-190 C 130,-190 155,-50 150,50 C 145,150 70,220 0,225 C -70,220 -145,150 -150,50 C -155,-50 -130,-190 0,-190 Z" fill="url(#spideyRed)" stroke="#7f1d1d" stroke-width="4" />
+    <!-- Web Pattern Webbing Lines -->
+    <!-- Vertical Web lines -->
+    <line x1="0" y1="-190" x2="0" y2="225" stroke="#1e293b" stroke-width="3" opacity="0.85" />
+    <path d="M 0,-30 Q 80,-100 135,-80" fill="none" stroke="#1e293b" stroke-width="2.5" opacity="0.8" />
+    <path d="M 0,-30 Q -80,-100 -135,-80" fill="none" stroke="#1e293b" stroke-width="2.5" opacity="0.8" />
+    <path d="M 0,-30 Q 110,-30 148,0" fill="none" stroke="#1e293b" stroke-width="2.5" opacity="0.8" />
+    <path d="M 0,-30 Q -110,-30 -148,0" fill="none" stroke="#1e293b" stroke-width="2.5" opacity="0.8" />
+    <path d="M 0,-30 Q 110,60 140,90" fill="none" stroke="#1e293b" stroke-width="2.5" opacity="0.8" />
+    <path d="M 0,-30 Q -110,60 -140,90" fill="none" stroke="#1e293b" stroke-width="2.5" opacity="0.8" />
+    <path d="M 0,-30 Q 80,140 70,200" fill="none" stroke="#1e293b" stroke-width="2.5" opacity="0.8" />
+    <path d="M 0,-30 Q -80,140 -70,200" fill="none" stroke="#1e293b" stroke-width="2.5" opacity="0.8" />
+    <!-- Web Rings -->
+    <circle cx="0" cy="-30" r="45" fill="none" stroke="#1e293b" stroke-width="2.5" opacity="0.8" />
+    <circle cx="0" cy="-30" r="95" fill="none" stroke="#1e293b" stroke-width="2.5" opacity="0.8" />
+    <circle cx="0" cy="-30" r="150" fill="none" stroke="#1e293b" stroke-width="2.5" opacity="0.8" />
+    <!-- Left Eye Outer Black Border -->
+    <path d="M -18,-20 C -45,-75 -115,-70 -125,-15 C -130,25 -70,60 -18,15 Z" fill="#0f172a" />
+    <!-- Left Eye White Lens -->
+    <path d="M -26,-15 C -48,-60 -105,-55 -112,-12 C -116,20 -68,48 -26,10 Z" fill="#ffffff" />
+    <!-- Right Eye Outer Black Border -->
+    <path d="M 18,-20 C 45,-75 115,-70 125,-15 C 130,25 70,60 18,15 Z" fill="#0f172a" />
+    <!-- Right Eye White Lens -->
+    <path d="M 26,-15 C 48,-60 105,-55 112,-12 C 116,20 68,48 26,10 Z" fill="#ffffff" />
+  </g>
+</svg>

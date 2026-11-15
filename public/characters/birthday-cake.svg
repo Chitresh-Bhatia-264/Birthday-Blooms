@@ -1,0 +1,45 @@
+<svg width="600" height="600" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="cakeGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a" />
+      <stop offset="50%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#b45309" />
+    </linearGradient>
+    <radialGradient id="frostingChoc" cx="50%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#9d174d" />
+      <stop offset="60%" stop-color="#831843" />
+      <stop offset="100%" stop-color="#500724" />
+    </radialGradient>
+  </defs>
+  <g transform="translate(300, 310)">
+    <!-- Cake Stand -->
+    <ellipse cx="0" cy="230" rx="240" ry="25" fill="#e2e8f0" opacity="0.8" />
+    <ellipse cx="0" cy="225" rx="230" ry="20" fill="#f8fafc" />
+    <!-- Tier 1 Base -->
+    <path d="M -180,100 C -180,145 180,145 180,100 L 180,200 C 180,245 -180,245 -180,200 Z" fill="url(#frostingChoc)" />
+    <ellipse cx="0" cy="100" rx="180" ry="40" fill="#be185d" />
+    <!-- Golden beaded border -->
+    <ellipse cx="0" cy="200" rx="180" ry="40" fill="none" stroke="url(#cakeGold)" stroke-width="8" stroke-dasharray="14,14" />
+    <!-- Tier 2 Middle -->
+    <path d="M -130,0 C -130,40 130,40 130,0 L 130,90 C 130,130 -130,130 -130,90 Z" fill="url(#frostingChoc)" />
+    <ellipse cx="0" cy="0" rx="130" ry="32" fill="#be185d" />
+    <!-- Tier 3 Top -->
+    <path d="M -85,-85 C -85,-50 85,-50 85,-85 L 85,-5 C 85,30 -85,30 -85,-5 Z" fill="url(#frostingChoc)" />
+    <ellipse cx="0" cy="-85" rx="85" ry="24" fill="#be185d" />
+    <!-- Strawberries on top -->
+    <circle cx="-40" cy="-90" r="12" fill="#ef4444" /><circle cx="0" cy="-94" r="14" fill="#ef4444" /><circle cx="40" cy="-90" r="12" fill="#ef4444" />
+    <!-- Lit Candles -->
+    <!-- Candle 1 -->
+    <rect x="-35" y="-150" width="8" height="55" rx="2" fill="url(#cakeGold)" />
+    <circle cx="-31" cy="-165" r="12" fill="#fbbf24" opacity="0.4" />
+    <path d="M -31,-175 C -25,-165 -27,-158 -31,-155 C -35,-158 -37,-165 -31,-175 Z" fill="#f59e0b" />
+    <!-- Candle 2 (Center) -->
+    <rect x="-4" y="-165" width="8" height="65" rx="2" fill="url(#cakeGold)" />
+    <circle cx="0" cy="-180" r="14" fill="#fbbf24" opacity="0.4" />
+    <path d="M 0,-192 C 7,-180 5,-172 0,-169 C -5,-172 -7,-180 0,-192 Z" fill="#f59e0b" />
+    <!-- Candle 3 -->
+    <rect x="27" y="-150" width="8" height="55" rx="2" fill="url(#cakeGold)" />
+    <circle cx="31" cy="-165" r="12" fill="#fbbf24" opacity="0.4" />
+    <path d="M 31,-175 C 37,-165 35,-158 31,-155 C 27,-158 25,-165 31,-175 Z" fill="#f59e0b" />
+  </g>
+</svg>

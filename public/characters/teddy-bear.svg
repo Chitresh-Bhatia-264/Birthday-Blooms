@@ -1,0 +1,42 @@
+<svg width="600" height="600" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bearBrown" cx="45%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#d97706" />
+      <stop offset="70%" stop-color="#b45309" />
+      <stop offset="100%" stop-color="#78350f" />
+    </radialGradient>
+  </defs>
+  <g transform="translate(300, 310)">
+    <!-- Ears -->
+    <circle cx="-100" cy="-120" r="42" fill="url(#bearBrown)" /><circle cx="-100" cy="-120" r="24" fill="#fef3c7" />
+    <circle cx="100" cy="-120" r="42" fill="url(#bearBrown)" /><circle cx="100" cy="-120" r="24" fill="#fef3c7" />
+    <!-- Body -->
+    <ellipse cx="0" cy="70" rx="125" ry="115" fill="url(#bearBrown)" />
+    <ellipse cx="0" cy="80" rx="80" ry="75" fill="#fef3c7" />
+    <!-- Head -->
+    <circle cx="0" cy="-45" r="115" fill="url(#bearBrown)" />
+    <!-- Snout -->
+    <ellipse cx="0" cy="-25" rx="48" ry="36" fill="#fef3c7" />
+    <ellipse cx="0" cy="-40" rx="18" ry="13" fill="#451a03" />
+    <path d="M 0,-27 L 0,-15 M -12,-15 Q 0,-6 12,-15" fill="none" stroke="#451a03" stroke-width="4" stroke-linecap="round" />
+    <!-- Eyes -->
+    <circle cx="-42" cy="-65" r="14" fill="#1e293b" /><circle cx="-46" cy="-69" r="5" fill="#ffffff" />
+    <circle cx="42" cy="-65" r="14" fill="#1e293b" /><circle cx="38" cy="-69" r="5" fill="#ffffff" />
+    <!-- Rosy Cheeks -->
+    <circle cx="-62" cy="-35" r="14" fill="#f43f5e" opacity="0.4" />
+    <circle cx="62" cy="-35" r="14" fill="#f43f5e" opacity="0.4" />
+    <!-- Big Red Bowtie -->
+    <polygon points="0,-5 -35,-25 -35,15" fill="#ef4444" />
+    <polygon points="0,-5 35,-25 35,15" fill="#ef4444" />
+    <circle cx="0" cy="-5" r="10" fill="#b91c1c" />
+    <!-- Gift Box Held in Paws -->
+    <rect x="-55" y="80" width="110" height="95" rx="8" fill="#3b82f6" />
+    <rect x="-62" y="70" width="124" height="22" rx="4" fill="#60a5fa" />
+    <!-- Ribbon -->
+    <rect x="-8" y="70" width="16" height="105" fill="#facc15" />
+    <rect x="-55" y="118" width="110" height="16" fill="#facc15" />
+    <!-- Paws -->
+    <circle cx="-65" cy="115" r="26" fill="url(#bearBrown)" />
+    <circle cx="65" cy="115" r="26" fill="url(#bearBrown)" />
+  </g>
+</svg>

@@ -1,0 +1,44 @@
+<svg width="600" height="600" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="pikaYellow" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#fef08a" />
+      <stop offset="60%" stop-color="#facc15" />
+      <stop offset="100%" stop-color="#eab308" />
+    </radialGradient>
+  </defs>
+  <g transform="translate(300, 310)">
+    <!-- Ears -->
+    <!-- Left Ear -->
+    <path d="M -70,-110 C -120,-170 -160,-220 -180,-240 C -190,-250 -160,-220 -120,-160 C -90,-120 -60,-80 -40,-60 Z" fill="url(#pikaYellow)" stroke="#ca8a04" stroke-width="3" />
+    <path d="M -180,-240 C -170,-225 -155,-215 -140,-200 L -165,-180 Z" fill="#1e293b" />
+    <!-- Right Ear -->
+    <path d="M 70,-110 C 120,-170 160,-220 180,-240 C 190,-250 160,-220 120,-160 C 90,-120 60,-80 40,-60 Z" fill="url(#pikaYellow)" stroke="#ca8a04" stroke-width="3" />
+    <path d="M 180,-240 C 170,-225 155,-215 140,-200 L 165,-180 Z" fill="#1e293b" />
+    <!-- Lightning Tail in background -->
+    <path d="M 110,80 L 160,30 L 140,10 L 220,-60 L 200,-90 L 260,-140" fill="none" stroke="#eab308" stroke-width="26" stroke-linecap="square" />
+    <path d="M 110,80 L 135,55" stroke="#92400e" stroke-width="26" />
+    <!-- Body -->
+    <ellipse cx="0" cy="80" rx="140" ry="130" fill="url(#pikaYellow)" stroke="#ca8a04" stroke-width="3" />
+    <!-- Head -->
+    <ellipse cx="0" cy="-40" rx="145" ry="125" fill="url(#pikaYellow)" stroke="#ca8a04" stroke-width="3" />
+    <!-- Cheeks (Red Rosy) -->
+    <circle cx="-100" cy="0" r="32" fill="#ef4444" />
+    <circle cx="100" cy="0" r="32" fill="#ef4444" />
+    <!-- Eyes -->
+    <circle cx="-55" cy="-55" r="22" fill="#1e293b" />
+    <circle cx="-62" cy="-62" r="9" fill="#ffffff" />
+    <circle cx="55" cy="-55" r="22" fill="#1e293b" />
+    <circle cx="48" cy="-62" r="9" fill="#ffffff" />
+    <!-- Tiny Nose -->
+    <polygon points="0,-32 -5,-37 5,-37" fill="#1e293b" />
+    <!-- Cute Smile -->
+    <path d="M -30,-15 Q -15,-5 0,-15 Q 15,-5 30,-15" fill="none" stroke="#1e293b" stroke-width="4.5" stroke-linecap="round" />
+    <path d="M -15,-10 Q 0,25 15,-10" fill="#f43f5e" />
+    <!-- Little Paws / Hands -->
+    <ellipse cx="-45" cy="50" rx="22" ry="16" fill="url(#pikaYellow)" />
+    <ellipse cx="45" cy="50" rx="22" ry="16" fill="url(#pikaYellow)" />
+    <!-- Feet -->
+    <ellipse cx="-70" cy="190" rx="36" ry="18" fill="url(#pikaYellow)" />
+    <ellipse cx="70" cy="190" rx="36" ry="18" fill="url(#pikaYellow)" />
+  </g>
+</svg>

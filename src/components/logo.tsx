@@ -1,0 +1,13 @@
+import { PartyPopper } from "lucide-react";
+import Link from "next/link";
+
+export function Logo() {
+  return (
+    <Link href="/" className="flex items-center justify-center gap-2" aria-label="Birthday Bloom home">
+      <PartyPopper className="h-7 w-7 text-primary" />
+      <span className="text-xl font-bold text-foreground">
+        Birthday Bloom
+      </span>
+    </Link>
+  )
+}
