@@ -23,7 +23,8 @@ function getBundledFont(): any {
   try {
     const fontPath = path.join(process.cwd(), 'public', 'fonts', 'Poppins-Bold.ttf');
     if (fs.existsSync(fontPath)) {
-      cachedFont = opentype.loadSync(fontPath);
+      const buf = fs.readFileSync(fontPath);
+      cachedFont = opentype.parse(buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength));
       return cachedFont;
     }
   } catch {
@@ -687,8 +688,7 @@ export async function fetchOpenSourceImageBuffer(prompt: string): Promise<Buffer
             'run'
           )
         ),
-        requireBuffer(fetchPollinationsImageBuffer(prompt, 'sana', 5500, 768)),
-        requireBuffer(fetchPollinationsImageBuffer(prompt, 'flux', 5500, 768)),
+        requireBuffer(fetchPollinationsImageBuffer(prompt, 'flux', 7000, 768)),
       ]);
     } catch {
       // All cloud tiers timed out within 5.5s -> fall back immediately to instant local renderer
