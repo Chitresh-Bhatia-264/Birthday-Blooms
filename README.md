@@ -132,8 +132,10 @@ python gan-studio/generate.py "birthday cake"
 ---
 
 ## Screenshot
-<img width="2274" height="1393" alt="image" src="https://github.com/user-attachments/assets/f0c1f8db-3258-4e8a-a259-763176976d87" />
-
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/cf833378-abdb-4233-8c2b-3ccbff38a87a" width="49%" />
+  <img src="https://github.com/user-attachments/assets/f0c1f8db-3258-4e8a-a259-763176976d87" width="49%" />
+</p>
 
 ## ☁️ Free Deployment (Vercel)
 
