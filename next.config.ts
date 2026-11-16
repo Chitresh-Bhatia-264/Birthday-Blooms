@@ -7,6 +7,9 @@ const nextConfig: NextConfig = {
       bodySizeLimit: '8mb',
     },
   },
+  outputFileTracingIncludes: {
+    '/api/**': ['./public/characters/**/*'],
+  },
   typescript: {
     ignoreBuildErrors: true,
   },

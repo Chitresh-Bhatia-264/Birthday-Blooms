@@ -473,15 +473,16 @@ async function requireBuffer(promise: Promise<Buffer | null>): Promise<Buffer> {
 
 async function fetchPollinationsImageBuffer(
   prompt: string,
-  model: 'flux' | 'turbo' = 'flux',
-  timeoutMs: number = 35000
+  model: 'flux' | 'turbo' | 'sana' = 'flux',
+  timeoutMs: number = 35000,
+  size: number = 1024
 ): Promise<Buffer | null> {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
   try {
     const seed = Math.floor(Math.random() * 1000000);
-    const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=1024&height=1024&nologo=true&enhance=true&model=${model}&seed=${seed}`;
+    const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=${size}&height=${size}&nologo=true&enhance=true&model=${model}&seed=${seed}`;
     const res = await fetch(url, {
       headers: { 'User-Agent': 'BirthdayBloom/2.0' },
       signal: controller.signal,
@@ -596,8 +597,8 @@ export async function fetchOpenSourceImageBuffer(prompt: string): Promise<Buffer
   const negPrompt = 'ugly, deformed, blurry, watermark, signature, text, distorted, low quality, extra limbs';
   const isVercel = Boolean(process.env.VERCEL);
 
-  // On Vercel Hobby (10s serverless limit), race all 4 cloud models in parallel (6.5s max)
-  // so total server time stays well under 10s and never triggers 504 "unexpected response from server".
+  // On Vercel Hobby (10s serverless limit), race all cloud models + fast 768px Pollinations (5.5s max)
+  // so real AI images finish before 10s and fallback still has plenty of headroom.
   if (isVercel) {
     try {
       return await Promise.any([
@@ -605,7 +606,7 @@ export async function fetchOpenSourceImageBuffer(prompt: string): Promise<Buffer
           callHuggingFaceGradioSpace(
             'https://mukaist-midjourney.hf.space',
             [prompt, negPrompt, true, '2560 x 1440', 0, 1024, 1024, 6, true],
-            6500,
+            5500,
             'run'
           )
         ),
@@ -613,7 +614,7 @@ export async function fetchOpenSourceImageBuffer(prompt: string): Promise<Buffer
           callHuggingFaceGradioSpace(
             'https://stabilityai-stable-diffusion-3-5-large-turbo.hf.space',
             [prompt, negPrompt, 0, true, 1024, 1024, 0, 4],
-            6500,
+            5500,
             'infer'
           )
         ),
@@ -621,14 +622,15 @@ export async function fetchOpenSourceImageBuffer(prompt: string): Promise<Buffer
           callHuggingFaceGradioSpace(
             'https://mrfakename-opendallev1-1-gpu-demo.hf.space',
             [prompt, negPrompt, '', '', true, false, false, 0, 1024, 1024, 5, 5, 25, 25, false],
-            6500,
+            5500,
             'run'
           )
         ),
-        requireBuffer(fetchPollinationsImageBuffer(prompt, 'flux', 6500)),
+        requireBuffer(fetchPollinationsImageBuffer(prompt, 'sana', 5500, 768)),
+        requireBuffer(fetchPollinationsImageBuffer(prompt, 'flux', 5500, 768)),
       ]);
     } catch {
-      // All cloud tiers timed out within 6.5s -> fall back immediately to instant local renderer
+      // All cloud tiers timed out within 5.5s -> fall back immediately to instant local renderer
       return null;
     }
   }
