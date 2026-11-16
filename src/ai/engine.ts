@@ -13,8 +13,53 @@ import fs from 'fs';
 import path from 'path';
 import { execFile } from 'child_process';
 import { promisify } from 'util';
+import * as opentype from 'opentype.js';
 
 const execFileAsync = promisify(execFile);
+
+let cachedFont: any;
+function getBundledFont(): any {
+  if (cachedFont !== undefined) return cachedFont;
+  try {
+    const fontPath = path.join(process.cwd(), 'public', 'fonts', 'Poppins-Bold.ttf');
+    if (fs.existsSync(fontPath)) {
+      cachedFont = opentype.loadSync(fontPath);
+      return cachedFont;
+    }
+  } catch {
+    // Fallback to SVG text if font loading fails
+  }
+  cachedFont = null;
+  return null;
+}
+
+function renderSvgTextPath(options: {
+  text: string;
+  centerX: number;
+  y: number;
+  fontSize: number;
+  fill: string;
+  fontFamily?: string;
+  fontStyleAttr?: string;
+  fontWeight?: string;
+  filterAttr?: string;
+}): string {
+  const { text, centerX, y, fontSize, fill, fontFamily = 'Arial, sans-serif', fontStyleAttr = '', fontWeight = 'bold', filterAttr = '' } = options;
+  const font = getBundledFont();
+  if (font) {
+    // Use vector glyph paths for all characters supported by Poppins-Bold (eliminates □□□ on Linux/Vercel)
+    const allSupported = Array.from(text).every((ch) => ch === ' ' || font.charToGlyphIndex(ch) !== 0);
+    if (allSupported) {
+      const width = font.getAdvanceWidth(text, fontSize);
+      const x = centerX - width / 2;
+      const pathData = font.getPath(text, x, y, fontSize).toPathData(2);
+      if (pathData) {
+        return `<path d="${pathData}" fill="${fill}" ${filterAttr} />`;
+      }
+    }
+  }
+  return `<text x="${centerX}" y="${y}" text-anchor="middle" fill="${fill}" font-size="${fontSize}" font-family="${fontFamily}" ${fontStyleAttr} font-weight="${fontWeight}" ${filterAttr}>${escapeXml(text)}</text>`;
+}
 
 // Helper to wrap text into multiple lines
 export function wrapText(text: string, maxCharsPerLine: number = 32): string[] {
@@ -345,8 +390,26 @@ export async function renderCharacterStickerPng(options: {
   const badgeY = 1000 - badgeHeight - 24;
 
   const textSvg = messageLines.map((line, idx) => {
-    return `<text x="512" y="${badgeY + 60 + (idx * 44)}" text-anchor="middle" fill="#0f172a" font-size="32" font-family="'Fredoka', 'Trebuchet MS', Arial, sans-serif" font-weight="bold">${escapeXml(line)}</text>`;
+    return renderSvgTextPath({
+      text: line,
+      centerX: 512,
+      y: badgeY + 66 + (idx * 44),
+      fontSize: 32,
+      fill: '#0f172a',
+      fontFamily: "'Fredoka', 'Trebuchet MS', Arial, sans-serif",
+      fontWeight: 'bold',
+    });
   }).join('\n');
+
+  const headerPath = renderSvgTextPath({
+    text: 'BIRTHDAY WISH',
+    centerX: 512,
+    y: badgeY + 30,
+    fontSize: 15,
+    fill: character.accentColor,
+    fontFamily: "'Montserrat', Arial, sans-serif",
+    fontWeight: 'bold',
+  });
 
   const bgSvg = `<svg width="1024" height="1024" xmlns="http://www.w3.org/2000/svg">
     <defs>
@@ -366,9 +429,7 @@ export async function renderCharacterStickerPng(options: {
     <g filter="url(#stickerShadow)">
       <rect x="100" y="${badgeY}" width="824" height="${badgeHeight}" rx="24" fill="#ffffff" stroke="#e2e8f0" stroke-width="3" />
     </g>
-    <text x="512" y="${badgeY + 28}" text-anchor="middle" fill="${character.accentColor}" font-size="14" font-family="'Montserrat', Arial, sans-serif" font-weight="bold" letter-spacing="3">
-      ★ BIRTHDAY WISH ★
-    </text>
+    ${headerPath}
     ${textSvg}
   </svg>`;
 
@@ -793,8 +854,28 @@ export function createCrispCardOverlaySvg(options: {
 
   const textStartY = plaqueY + 95;
   const messageTextSvg = messageLines.map((line, idx) => {
-    return `<text x="512" y="${textStartY + (idx * 38)}" text-anchor="middle" fill="${textColor}" font-size="26" font-family="${fontFamily}" ${fontStyleAttr} font-weight="${fontWeight}" filter="url(#textShadow)">${escapeXml(line)}</text>`;
+    return renderSvgTextPath({
+      text: line,
+      centerX: 512,
+      y: textStartY + (idx * 38),
+      fontSize: 26,
+      fill: textColor,
+      fontFamily,
+      fontStyleAttr,
+      fontWeight,
+      filterAttr: 'filter="url(#textShadow)"',
+    });
   }).join('\n');
+
+  const cardHeaderPath = renderSvgTextPath({
+    text: 'HAPPY BIRTHDAY',
+    centerX: 512,
+    y: plaqueY + 42,
+    fontSize: 22,
+    fill: titleColor,
+    fontFamily: "'Montserrat', Arial, sans-serif",
+    fontWeight: 'bold',
+  });
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
     <defs>
@@ -829,20 +910,16 @@ export function createCrispCardOverlaySvg(options: {
     </g>
 
     <!-- Plaque Header -->
-    <g transform="translate(512, ${plaqueY + 42})">
-      <text x="0" y="0" text-anchor="middle" fill="${titleColor}" font-size="22" font-family="'Montserrat', Arial, sans-serif" font-weight="bold" letter-spacing="3">
-        ★ HAPPY BIRTHDAY ★
-      </text>
-      <line x1="-120" y1="18" x2="120" y2="18" stroke="url(#goldGradient)" stroke-width="1.5" opacity="0.8" />
-    </g>
+    ${cardHeaderPath}
+    <line x1="392" y1="${plaqueY + 60}" x2="632" y2="${plaqueY + 60}" stroke="url(#goldGradient)" stroke-width="1.5" opacity="0.8" />
 
     <!-- Razor-Sharp Message Lines -->
     ${messageTextSvg}
 
-    <!-- Plaque Footer Sparkles -->
-    <g transform="translate(512, ${plaqueY + plaqueHeight - 18})">
-      <text x="0" y="0" text-anchor="middle" fill="${titleColor}" font-size="18">✨ 💖 ✨</text>
-    </g>
+    <!-- Plaque Footer Accents -->
+    <circle cx="492" cy="${plaqueY + plaqueHeight - 20}" r="3.5" fill="${titleColor}" opacity="0.85" />
+    <circle cx="512" cy="${plaqueY + plaqueHeight - 20}" r="5" fill="${accentColor}" />
+    <circle cx="532" cy="${plaqueY + plaqueHeight - 20}" r="3.5" fill="${titleColor}" opacity="0.85" />
   </svg>`;
 }
 
@@ -861,8 +938,26 @@ export function createCrispStickerOverlaySvg(options: {
   const badgeY = 1000 - badgeHeight - 20;
 
   const textSvg = messageLines.map((line, idx) => {
-    return `<text x="512" y="${badgeY + 60 + (idx * 44)}" text-anchor="middle" fill="#0f172a" font-size="32" font-family="'Fredoka', 'Trebuchet MS', Arial, sans-serif" font-weight="bold">${escapeXml(line)}</text>`;
+    return renderSvgTextPath({
+      text: line,
+      centerX: 512,
+      y: badgeY + 66 + (idx * 44),
+      fontSize: 32,
+      fill: '#0f172a',
+      fontFamily: "'Fredoka', 'Trebuchet MS', Arial, sans-serif",
+      fontWeight: 'bold',
+    });
   }).join('\n');
+
+  const stickerHeaderPath = renderSvgTextPath({
+    text: 'BIRTHDAY WISH',
+    centerX: 512,
+    y: badgeY + 30,
+    fontSize: 15,
+    fill: '#ec4899',
+    fontFamily: "'Montserrat', Arial, sans-serif",
+    fontWeight: 'bold',
+  });
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
     <defs>
@@ -879,9 +974,7 @@ export function createCrispStickerOverlaySvg(options: {
       <rect x="100" y="${badgeY}" width="824" height="${badgeHeight}" rx="24" fill="#ffffff" stroke="#e2e8f0" stroke-width="3" />
     </g>
 
-    <text x="512" y="${badgeY + 28}" text-anchor="middle" fill="#ec4899" font-size="14" font-family="'Montserrat', Arial, sans-serif" font-weight="bold" letter-spacing="3">
-      ★ BIRTHDAY WISH ★
-    </text>
+    ${stickerHeaderPath}
 
     ${textSvg}
   </svg>`;

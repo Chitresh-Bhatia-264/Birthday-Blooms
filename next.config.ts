@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
     },
   },
   outputFileTracingIncludes: {
-    '/api/**': ['./public/characters/**/*'],
+    '/api/**': ['./public/characters/**/*', './public/fonts/**/*'],
   },
   typescript: {
     ignoreBuildErrors: true,
