@@ -131,6 +131,10 @@ python gan-studio/generate.py "birthday cake"
 
 ---
 
+## Screenshot
+<img width="2274" height="1393" alt="image" src="https://github.com/user-attachments/assets/f0c1f8db-3258-4e8a-a259-763176976d87" />
+
+
 ## ☁️ Free Deployment (Vercel)
 
 Because **Birthday Bloom** requires **no database** and **no `.env` API keys**:
