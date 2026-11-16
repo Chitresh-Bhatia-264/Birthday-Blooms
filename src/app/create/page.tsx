@@ -382,7 +382,13 @@ export default function Home() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(input),
         });
-        const imageResult = await cardRes.json();
+        const cardText = await cardRes.text();
+        let imageResult: any = null;
+        try {
+          imageResult = JSON.parse(cardText);
+        } catch {
+          throw new Error(`Server returned status ${cardRes.status}. Please try again.`);
+        }
         
         if (!cardRes.ok || !imageResult?.imageDataUri) {
           throw new Error(imageResult?.error || "Image generation failed to return data.");

@@ -688,7 +688,7 @@ export async function fetchOpenSourceImageBuffer(prompt: string): Promise<Buffer
             'run'
           )
         ),
-        requireBuffer(fetchPollinationsImageBuffer(prompt, 'flux', 7000, 768)),
+        requireBuffer(fetchPollinationsImageBuffer(prompt, 'flux', 5500, 768)),
       ]);
     } catch {
       // All cloud tiers timed out within 5.5s -> fall back immediately to instant local renderer
